@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\Sql\QueryFormatter\Helper;
+namespace Sql\QueryFormatter\Helper;
 
-use NilPortugues\Sql\QueryFormatter\Formatter;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Tokenizer;
+use Sql\QueryFormatter\Formatter;
+use Sql\QueryFormatter\Tokenizer\Tokenizer;
 
 /**
  * Class NewLine.
@@ -24,7 +24,7 @@ class NewLine
     protected $newline = false;
 
     /**
-     * @var \NilPortugues\Sql\QueryFormatter\Formatter
+     * @var \Sql\QueryFormatter\Formatter
      */
     protected $formatter;
 

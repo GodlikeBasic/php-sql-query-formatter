@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\Sql\QueryFormatter\Helper;
+namespace Sql\QueryFormatter\Helper;
 
-use NilPortugues\Sql\QueryFormatter\Formatter;
+use Sql\QueryFormatter\Formatter;
 
 /**
  * Class Indent.

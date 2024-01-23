@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\Tests\Sql\QueryFormatter;
+namespace Tests\Sql\QueryFormatter;
 
-use NilPortugues\Sql\QueryFormatter\Formatter;
+use Sql\QueryFormatter\Formatter;
 
 /**
  * Class FormatterTest.
  */
-class FormatterTest extends \PHPUnit_Framework_TestCase
+class FormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var string

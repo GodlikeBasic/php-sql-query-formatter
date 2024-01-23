@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\Sql\QueryFormatter\Tokenizer\Parser;
+namespace Sql\QueryFormatter\Tokenizer\Parser;
 
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Tokenizer;
+use Sql\QueryFormatter\Tokenizer\Tokenizer;
 
 /**
  * Class Comment.

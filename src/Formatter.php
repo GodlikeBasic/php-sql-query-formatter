@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\Sql\QueryFormatter;
+namespace Sql\QueryFormatter;
 
-use NilPortugues\Sql\QueryFormatter\Helper\Comment;
-use NilPortugues\Sql\QueryFormatter\Helper\Indent;
-use NilPortugues\Sql\QueryFormatter\Helper\NewLine;
-use NilPortugues\Sql\QueryFormatter\Helper\Parentheses;
-use NilPortugues\Sql\QueryFormatter\Helper\Token;
-use NilPortugues\Sql\QueryFormatter\Helper\WhiteSpace;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Tokenizer;
+use Sql\QueryFormatter\Helper\Comment;
+use Sql\QueryFormatter\Helper\Indent;
+use Sql\QueryFormatter\Helper\NewLine;
+use Sql\QueryFormatter\Helper\Parentheses;
+use Sql\QueryFormatter\Helper\Token;
+use Sql\QueryFormatter\Helper\WhiteSpace;
+use Sql\QueryFormatter\Tokenizer\Tokenizer;
 
 /**
  * Lightweight Formatter heavily based on https://github.com/jdorn/sql-formatter.

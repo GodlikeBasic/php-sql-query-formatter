@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\Tests\Sql\QueryFormatter\Tokenizer;
+namespace Tests\Sql\QueryFormatter\Tokenizer;
 
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Tokenizer;
+use Sql\QueryFormatter\Tokenizer\Tokenizer;
 
 /**
  * Class TokenizerTest.
  */
-class TokenizerTest extends \PHPUnit_Framework_TestCase
+class TokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Tokenizer
@@ -25,7 +25,7 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenizer = new Tokenizer();
     }
@@ -33,7 +33,7 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->tokenizer = null;
     }

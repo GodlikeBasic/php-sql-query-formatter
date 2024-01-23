@@ -46,7 +46,7 @@ php composer.phar require nilportugues/sql-query-formatter
 Sample code:
 ```php
 <?php
-use NilPortugues\Sql\QueryFormatter\Formatter;
+use Sql\QueryFormatter\Formatter;
 
 $query = <<<SQL
 SELECT user.user_id, user.username, (SELECT 

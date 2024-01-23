@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\Sql\QueryFormatter\Tokenizer;
+namespace Sql\QueryFormatter\Tokenizer;
 
-use NilPortugues\Sql\QueryFormatter\Helper\Token;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\Boundary;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\Comment;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\Numeral;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\Quoted;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\Reserved;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\LiteralString;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\UserDefined;
-use NilPortugues\Sql\QueryFormatter\Tokenizer\Parser\WhiteSpace;
+use Sql\QueryFormatter\Helper\Token;
+use Sql\QueryFormatter\Tokenizer\Parser\Boundary;
+use Sql\QueryFormatter\Tokenizer\Parser\Comment;
+use Sql\QueryFormatter\Tokenizer\Parser\Numeral;
+use Sql\QueryFormatter\Tokenizer\Parser\Quoted;
+use Sql\QueryFormatter\Tokenizer\Parser\Reserved;
+use Sql\QueryFormatter\Tokenizer\Parser\LiteralString;
+use Sql\QueryFormatter\Tokenizer\Parser\UserDefined;
+use Sql\QueryFormatter\Tokenizer\Parser\WhiteSpace;
 
 /**
  * Class Tokenizer.
@@ -44,67 +44,67 @@ class Tokenizer
     /**
      * @var string
      */
-    protected $regexBoundaries;
+    protected string $regexBoundaries;
 
     /**
      * @var string
      */
-    protected $regexReserved;
+    protected string $regexReserved;
 
     /**
      * @var string
      */
-    protected $regexReservedNewLine;
+    protected string|array $regexReservedNewLine;
 
     /**
      * @var string
      */
-    protected $regexReservedTopLevel;
+    protected string|array $regexReservedTopLevel;
 
     /**
      * @var string
      */
-    protected $regexFunction;
+    protected string $regexFunction;
 
     /**
      * @var int
      */
-    protected $maxCacheKeySize = 15;
+    protected int $maxCacheKeySize = 15;
 
     /**
      * @var array
      */
-    protected $tokenCache = [];
+    protected array $tokenCache = [];
 
     /**
      * @var array
      */
-    protected $nextToken = [];
+    protected array $nextToken = [];
 
     /**
      * @var int
      */
-    protected $currentStringLength = 0;
+    protected int $currentStringLength = 0;
 
     /**
      * @var int
      */
-    protected $oldStringLength = 0;
+    protected int $oldStringLength = 0;
 
     /**
      * @var string
      */
-    protected $previousToken = '';
+    protected string $previousToken = '';
 
     /**
      * @var int
      */
-    protected $tokenLength = 0;
+    protected int $tokenLength = 0;
 
     /**
      * @var array
      */
-    protected $tokens = [];
+    protected array $tokens = [];
 
     /**
      * Builds all the regular expressions needed to Tokenize the input.
@@ -127,7 +127,7 @@ class Tokenizer
      *
      * @return string
      */
-    protected function initRegex($variable)
+    protected function initRegex($variable): string
     {
         return '('.implode('|', \array_map(array($this, 'quoteRegex'), $variable)).')';
     }
@@ -140,9 +140,9 @@ class Tokenizer
      *
      * @return array
      */
-    public function tokenize($string)
+    public function tokenize(string $string): array
     {
-        return (\strlen($string) > 0) ? $this->processTokens($string) : [];
+        return (strlen($string) > 0) ? $this->processTokens($string) : [];
     }
 
     /**
@@ -150,12 +150,12 @@ class Tokenizer
      *
      * @return array
      */
-    protected function processTokens($string)
+    protected function processTokens(string $string): array
     {
         $this->tokens = [];
         $this->previousToken = '';
-        $this->currentStringLength = \strlen($string);
-        $this->oldStringLength = \strlen($string) + 1;
+        $this->currentStringLength = strlen($string);
+        $this->oldStringLength = strlen($string) + 1;
 
         while ($this->currentStringLength >= 0) {
             if ($this->oldStringLength <= $this->currentStringLength) {
@@ -172,27 +172,27 @@ class Tokenizer
      *
      * @return string
      */
-    protected function processOneToken($string)
+    protected function processOneToken(string $string): string
     {
         $token = $this->getToken($string, $this->currentStringLength, $this->previousToken);
         $this->tokens[] = $token;
-        $this->tokenLength = \strlen($token[self::TOKEN_VALUE]);
+        $this->tokenLength = strlen($token[self::TOKEN_VALUE] ?? '');
         $this->previousToken = $token;
 
         $this->oldStringLength = $this->currentStringLength;
         $this->currentStringLength -= $this->tokenLength;
 
-        return \substr($string, $this->tokenLength);
+        return substr($string, $this->tokenLength);
     }
 
     /**
      * @param string $string
-     * @param int    $currentStringLength
-     * @param string string
+     * @param int $currentStringLength
+     * @param string $previousToken string
      *
      * @return array|mixed
      */
-    protected function getToken($string, $currentStringLength, $previousToken)
+    protected function getToken(string $string, int $currentStringLength, $previousToken): mixed
     {
         $cacheKey = $this->useTokenCache($string, $currentStringLength);
         if (!empty($cacheKey) && isset($this->tokenCache[$cacheKey])) {
@@ -204,16 +204,16 @@ class Tokenizer
 
     /**
      * @param string $string
-     * @param int    $currentStringLength
+     * @param int $currentStringLength
      *
      * @return string
      */
-    protected function useTokenCache($string, $currentStringLength)
+    protected function useTokenCache(string $string, int $currentStringLength): string
     {
         $cacheKey = '';
 
         if ($currentStringLength >= $this->maxCacheKeySize) {
-            $cacheKey = \substr($string, 0, $this->maxCacheKeySize);
+            $cacheKey = substr($string, 0, $this->maxCacheKeySize);
         }
 
         return $cacheKey;
@@ -224,7 +224,7 @@ class Tokenizer
      *
      * @return mixed
      */
-    protected function getNextTokenFromCache($cacheKey)
+    protected function getNextTokenFromCache(string $cacheKey): mixed
     {
         return $this->tokenCache[$cacheKey];
     }
@@ -238,11 +238,11 @@ class Tokenizer
      *
      * @return array
      */
-    protected function getNextTokenFromString($string, $token, $cacheKey)
+    protected function getNextTokenFromString(string $string, string $token, string $cacheKey): array
     {
         $token = $this->parseNextToken($string, $token);
 
-        if ($cacheKey && \strlen($token[self::TOKEN_VALUE]) < $this->maxCacheKeySize) {
+        if ($cacheKey && strlen($token[self::TOKEN_VALUE] ?? '') < $this->maxCacheKeySize) {
             $this->tokenCache[$cacheKey] = $token;
         }
 
@@ -254,11 +254,11 @@ class Tokenizer
      * Quoted strings, comments, reserved words, whitespace, and punctuation are all their own tokens.
      *
      * @param string $string   The SQL string
-     * @param array  $previous The result of the previous parseNextToken() call
+     * @param array|null $previous The result of the previous parseNextToken() call
      *
      * @return array An associative array containing the type and value of the token.
      */
-    protected function parseNextToken($string, $previous = null)
+    protected function parseNextToken(string $string, array $previous = null): array
     {
         $matches = [];
         $this->nextToken = [];
@@ -279,7 +279,7 @@ class Tokenizer
     /**
      * @return array
      */
-    public function getNextToken()
+    public function getNextToken(): array
     {
         return $this->nextToken;
     }
@@ -289,7 +289,7 @@ class Tokenizer
      *
      * @return $this
      */
-    public function setNextToken($nextToken)
+    public function setNextToken(array $nextToken): static
     {
         $this->nextToken = $nextToken;
 
@@ -299,7 +299,7 @@ class Tokenizer
     /**
      * @return string
      */
-    public function getRegexBoundaries()
+    public function getRegexBoundaries(): string
     {
         return $this->regexBoundaries;
     }
@@ -307,7 +307,7 @@ class Tokenizer
     /**
      * @return string
      */
-    public function getRegexFunction()
+    public function getRegexFunction(): string
     {
         return $this->regexFunction;
     }
@@ -315,7 +315,7 @@ class Tokenizer
     /**
      * @return string
      */
-    public function getRegexReserved()
+    public function getRegexReserved(): string
     {
         return $this->regexReserved;
     }
@@ -323,7 +323,7 @@ class Tokenizer
     /**
      * @return string
      */
-    public function getRegexReservedNewLine()
+    public function getRegexReservedNewLine(): string
     {
         return $this->regexReservedNewLine;
     }
@@ -331,7 +331,7 @@ class Tokenizer
     /**
      * @return string
      */
-    public function getRegexReservedTopLevel()
+    public function getRegexReservedTopLevel(): string
     {
         return $this->regexReservedTopLevel;
     }
@@ -343,7 +343,7 @@ class Tokenizer
      *
      * @return string
      */
-    protected function quoteRegex($string)
+    protected function quoteRegex(string $string): string
     {
         return \preg_quote($string, '/');
     }
