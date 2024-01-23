@@ -92,9 +92,9 @@ class Tokenizer
     protected int $oldStringLength = 0;
 
     /**
-     * @var string
+     * @var array
      */
-    protected string $previousToken = '';
+    protected array $previousToken = [];
 
     /**
      * @var int
@@ -153,7 +153,7 @@ class Tokenizer
     protected function processTokens(string $string): array
     {
         $this->tokens = [];
-        $this->previousToken = '';
+        $this->previousToken = [];
         $this->currentStringLength = strlen($string);
         $this->oldStringLength = strlen($string) + 1;
 
@@ -188,11 +188,11 @@ class Tokenizer
     /**
      * @param string $string
      * @param int $currentStringLength
-     * @param string $previousToken string
+     * @param array $previousToken
      *
      * @return array|mixed
      */
-    protected function getToken(string $string, int $currentStringLength, $previousToken): mixed
+    protected function getToken(string $string, int $currentStringLength, array $previousToken): mixed
     {
         $cacheKey = $this->useTokenCache($string, $currentStringLength);
         if (!empty($cacheKey) && isset($this->tokenCache[$cacheKey])) {
@@ -233,14 +233,14 @@ class Tokenizer
      * Get the next token and the token type and store it in cache.
      *
      * @param string $string
-     * @param string $token
+     * @param array $previousToken
      * @param string $cacheKey
      *
      * @return array
      */
-    protected function getNextTokenFromString(string $string, string $token, string $cacheKey): array
+    protected function getNextTokenFromString(string $string, array $previousToken, string $cacheKey): array
     {
-        $token = $this->parseNextToken($string, $token);
+        $token = $this->parseNextToken($string, $previousToken);
 
         if ($cacheKey && strlen($token[self::TOKEN_VALUE] ?? '') < $this->maxCacheKeySize) {
             $this->tokenCache[$cacheKey] = $token;

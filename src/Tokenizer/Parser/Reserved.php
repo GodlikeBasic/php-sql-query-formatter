@@ -28,12 +28,11 @@ final class Reserved
 
     /**
      * @param Tokenizer  $tokenizer
-     * @param string     $string
+     * @param string $string
      * @param array|null $previous
      *
-     * @return array
      */
-    public static function isReserved(Tokenizer $tokenizer, $string, $previous)
+    public static function isReserved(Tokenizer $tokenizer, string $string, ?array $previous)
     {
         $tokenData = [];
 
@@ -46,6 +45,7 @@ final class Reserved
 
             $tokenizer->setNextToken($tokenData);
         }
+
     }
 
     /**
